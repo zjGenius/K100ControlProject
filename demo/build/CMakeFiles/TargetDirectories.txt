@@ -1,0 +1,3 @@
+/home/zhangjun/code/test/demo/build/CMakeFiles/rebuild_cache.dir
+/home/zhangjun/code/test/demo/build/CMakeFiles/edit_cache.dir
+/home/zhangjun/code/test/demo/build/CMakeFiles/TestProject.dir

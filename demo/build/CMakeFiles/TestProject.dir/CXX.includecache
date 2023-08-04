@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/other_lib/IIORegister.h
+string
+-
+thread
+-
+unistd.h
+-
+sys/time.h
+-
+atomic
+-
+linux/input.h
+-
+fcntl.h
+-
+
+/home/zhangjun/code/test/demo/src/main.cpp
+stdio.h
+-
+IIORegister.h
+/home/zhangjun/code/test/demo/src/IIORegister.h
+bitset
+-
+

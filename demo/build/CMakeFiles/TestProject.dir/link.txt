@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++11 -O0 -g  -rdynamic CMakeFiles/TestProject.dir/src/main.o  -o ../output/TestProject   -L/home/zhangjun/code/test/demo/include/other_lib  -lpthread ../include/other_lib/libperipheral.a 
