@@ -1,6 +1,9 @@
 #include "IIORegister.h"
 #include <bitset>
 
+IIO_Registers *IIO_Registers::m_IIORegisters = nullptr;
+std::mutex IIO_Registers::m_mutex;
+
 IIO_Registers::IIO_Registers()
 {
 }
@@ -9,6 +12,57 @@ IIO_Registers::~IIO_Registers()
 {
     delete pCtx;
     delete pDev;
+}
+
+/**
+ * @brief 初始化操作
+ *
+ * @param ip
+ * @param mode
+ * @return IIO_Registers*
+ */
+IIO_Registers *IIO_Registers::initIIORegister(std::string ip, uint8_t mode)
+{
+    if (m_IIORegisters == nullptr)
+    {
+        std::unique_lock<std::mutex> lock(m_mutex);
+        if (m_IIORegisters == nullptr)
+        {
+            auto temp = new (std::nothrow) IIO_Registers();
+            m_IIORegisters = temp;
+            printf("IIO Registers init success\n");
+        }
+        else
+        {
+            printf("IIO Registers exist\n");
+        }
+    }
+    else
+    {
+        printf("IIO Registers exist\n");
+    }
+    // std::string dev_ip = "ip:192.168.100.233";
+    if (m_IIORegisters->initIIO(ip) == 0)
+    {
+        printf("IIO init failed.\n");
+        m_IIORegisters = nullptr;
+    }
+    return m_IIORegisters;
+}
+
+/**
+ * @brief 销毁对象
+ *
+ * @return IIO_Registers*
+ */
+IIO_Registers *IIO_Registers::deleteIIORegister()
+{
+    std::unique_lock<std::mutex> lock(m_mutex);
+    if (m_IIORegisters)
+    {
+        delete m_IIORegisters;
+        m_IIORegisters = nullptr;
+    }
 }
 
 uint64_t curr_mill()
@@ -91,7 +145,7 @@ void IIO_Registers::resetAlarmBit(uint32_t command)
  * @brief getAlarmBit 获取alarm bit (iio:device0:altvoltage1:alarm)
  * @param a 多少位
  */
-int IIO_Registers::getAlarmBit(uint8_t a)
+int IIO_Registers::getIIOAlarmBit(uint8_t a)
 {
     uint32_t command;
     uint32_t operationBit = 0;
@@ -132,17 +186,13 @@ int IIO_Registers::setBuzzerLevel(int level)
         return 0;
     }
     writeAlarmBit(BUZZER_LEVEL, level);
-    // uint32_t bit = 0;
-    // bit |= 15 << BUZZER_LEVEL;
-    // resetAlarmBit(bit);
-    // setAlarmBit(level << BUZZER_LEVEL);
     return 1;
 }
 
 /**
  * @brief 设置屏幕亮度
  *
- * @param level 等级0~15
+ * @param level 等级0~15 0屏幕熄灭
  * @return int
  */
 int IIO_Registers::setLightLevel(int level)
@@ -154,10 +204,6 @@ int IIO_Registers::setLightLevel(int level)
     }
     setAlarmBit(1 << 13); // 只有将13位置1才能调光
     writeAlarmBit(SCREEN_LEVEL, level);
-    // uint32_t bit = 0;
-    // bit |= 15 << BUZZER_LEVEL;
-    // resetAlarmBit(bit);
-    // setAlarmBit(level << BUZZER_LEVEL);
     return 1;
 }
 
@@ -187,7 +233,7 @@ int IIO_Registers::setControlIIO(uint8_t bit, uint8_t value)
  */
 int IIO_Registers::getControlIIO(uint8_t bit)
 {
-    return getAlarmBit(bit);
+    return getIIOAlarmBit(bit);
 }
 
 /**
@@ -215,13 +261,13 @@ void IIO_Registers::setAlarmParam(int type, uint64_t duration, uint32_t mode, ui
     if (type == BUZZER)
     {
         buzzerThread.duration = duration;
-        buzzerThread.mode = mode;
+        buzzerThread.interval_time = interval_time;
         buzzerThread.startTime = curr_mill();
     }
     else if (type == LED1)
     {
         ledThread.duration = duration;
-        ledThread.mode = mode;
+        ledThread.interval_time = interval_time;
         ledThread.startTime = curr_mill();
     }
     else if (type == MOTOR)
@@ -238,30 +284,29 @@ void IIO_Registers::setAlarmParam(int type, uint64_t duration, uint32_t mode, ui
  *
  * @param _switch true开  false关
  * @param seconds 时长 单位s
- * @param mode 模式 参考BuzzerMode
+ * @param interval_time 告警间隔时间(响不响间隔) 单位ms
  * @return int
  */
-int IIO_Registers::setBuzzerAlarm(bool _switch, uint64_t duration, uint32_t mode)
+int IIO_Registers::setBuzzerAlarm(bool _switch, uint64_t duration, uint64_t interval_time)
 {
     if (_switch == true)
     {
         if (buzzerThread.running == false)
         {
-            buzzerThread.thread_ = std::thread(&IIO_Registers::_buzzer_thread, this, duration, mode);
+            buzzerThread.thread_ = std::thread(&IIO_Registers::_buzzer_thread, this, duration, interval_time);
             buzzerThread.running = true;
             buzzerThread.thread_.detach();
         }
         else
         {
-            setAlarmParam(BUZZER, duration, mode);
+            setAlarmParam(BUZZER, duration, 0, interval_time);
         }
     }
     else if (_switch == false)
     {
         buzzerThread.running = false;
-        uint32_t bit = getAlarmBit(BUZZER);
-        if (getAlarmBit(BUZZER) == 1)
-            resetAlarmBit(bit);
+        if (getIIOAlarmBit(BUZZER) == 1)
+            resetAlarmBit(getAlarmBit(BUZZER));
     }
 }
 
@@ -270,30 +315,29 @@ int IIO_Registers::setBuzzerAlarm(bool _switch, uint64_t duration, uint32_t mode
  *
  * @param _switch true开  false关
  * @param seconds 时长 单位 秒 s
- * @param mode 模式 参考BuzzerMode
+ * @param interval_time 告警间隔时间(亮灭间隔) 单位ms
  * @return int
  */
-int IIO_Registers::setLedAlarm(bool _switch, uint64_t duration, uint32_t mode)
+int IIO_Registers::setLedAlarm(bool _switch, uint64_t duration, uint64_t interval_time)
 {
     if (_switch == true)
     {
         if (ledThread.running == false)
         {
-            ledThread.thread_ = std::thread(&IIO_Registers::_led_thread, this, duration, mode);
+            ledThread.thread_ = std::thread(&IIO_Registers::_led_thread, this, duration, interval_time);
             ledThread.running = true;
             ledThread.thread_.detach();
         }
         else
         {
-            setAlarmParam(LED1, duration, mode);
+            setAlarmParam(LED1, duration, 0, interval_time);
         }
     }
     else if (_switch == false)
     {
         ledThread.running = false;
-        uint32_t bit = getAlarmBit(LED1);
-        if (getAlarmBit(LED1) == 1)
-            resetAlarmBit(bit);
+        if (getIIOAlarmBit(LED1) == 1)
+            resetAlarmBit(getAlarmBit(LED1));
     }
 }
 
@@ -303,7 +347,7 @@ int IIO_Registers::setLedAlarm(bool _switch, uint64_t duration, uint32_t mode)
  * @param _switch       开关 true开
  * @param duration      告警时长
  * @param mode          告警模式 参考MotorMode
- * @param interval_time 告警间隔事件 单位ms 处于M_INTERVAL模式生效
+ * @param interval_time 告警间隔时间 单位ms 处于M_INTERVAL模式生效
  * @return int
  */
 int IIO_Registers::setMotorAlarm(bool _switch, uint64_t duration, uint32_t mode, uint64_t interval_time)
@@ -324,56 +368,47 @@ int IIO_Registers::setMotorAlarm(bool _switch, uint64_t duration, uint32_t mode,
     else if (_switch == false)
     {
         motorThread.running = false;
-        uint32_t bit = getAlarmBit(MOTOR);
-        if (getAlarmBit(MOTOR) == 1)
-            resetAlarmBit(bit);
+        if (getIIOAlarmBit(MOTOR) == 1)
+            resetAlarmBit(getAlarmBit(MOTOR));
     }
 }
 
-std::thread::id IIO_Registers::_led_thread_id()
-{
-    std::thread::id id = ledThread.thread_.get_id();
-    // std::cout << this->ledThread.thread_.get_id() << std::endl;
-    // std::cout << id << std::endl;
-    return id;
-}
-
-void IIO_Registers::_buzzer_thread(uint64_t duration, uint32_t mode)
+void IIO_Registers::_buzzer_thread(uint64_t duration, uint64_t interval_time)
 {
     buzzerThread.startTime = curr_mill();
-    printf("now: %ld\n", buzzerThread.startTime);
+    // printf("now: %ld\n", buzzerThread.startTime);
 
-    buzzerThread.mode = mode;
+    buzzerThread.interval_time = interval_time;
     buzzerThread.duration = duration;
 
     uint32_t bit = getAlarmBit(BUZZER);
     while (buzzerThread.running == true)
     {
         setAlarmBit(bit);
-        usleep(buzzerThread.mode * 1000 / 2);
+        usleep(buzzerThread.interval_time * 1000 / 2);
         resetAlarmBit(bit);
-        usleep(buzzerThread.mode * 1000 / 2);
+        usleep(buzzerThread.interval_time * 1000 / 2);
 
         if (curr_mill() - buzzerThread.startTime > buzzerThread.duration * 1000)
             buzzerThread.running = false;
     }
 }
 
-void IIO_Registers::_led_thread(uint64_t duration, uint32_t mode)
+void IIO_Registers::_led_thread(uint64_t duration, uint64_t interval_time)
 {
     ledThread.startTime = curr_mill();
-    printf("now: %ld\n", ledThread.startTime);
+    // printf("now: %ld\n", ledThread.startTime);
 
-    ledThread.mode = mode;
+    ledThread.interval_time = interval_time;
     ledThread.duration = duration;
 
     uint32_t bit = getAlarmBit(LED1);
     while (ledThread.running == true)
     {
         setAlarmBit(bit);
-        usleep(ledThread.mode * 1000 / 2);
+        usleep(ledThread.interval_time * 1000 / 2);
         resetAlarmBit(bit);
-        usleep(ledThread.mode * 1000 / 2);
+        usleep(ledThread.interval_time * 1000 / 2);
 
         if (curr_mill() - ledThread.startTime > ledThread.duration * 1000)
             ledThread.running = false;
@@ -390,7 +425,7 @@ void IIO_Registers::_led_thread(uint64_t duration, uint32_t mode)
 void IIO_Registers::_motor_thread(uint64_t duration, uint32_t mode, uint64_t interval_time)
 {
     motorThread.startTime = curr_mill();
-    printf("now: %ld\n", motorThread.startTime);
+    // printf("now: %ld\n", motorThread.startTime);
 
     motorThread.mode = mode;
     motorThread.duration = duration;
@@ -442,6 +477,14 @@ void IIO_Registers::killKeys()
     keysThread.running = false;
 }
 
+/**
+ * @brief 识别按键长短按操作
+ *
+ * @param key
+ * @param releaseTime
+ * @param pressTime
+ * @return KeyBroad
+ */
 KeyBroad IIO_Registers::dealKeysTime(uint8_t key, uint64_t releaseTime, uint64_t pressTime)
 {
     KeyBroad keyBroad;
@@ -523,6 +566,11 @@ int IIO_Registers::readKeys(KeyBroad &keys)
     return 0;
 }
 
+/**
+ * @brief 通过iio形式获取按键
+ *
+ * @param callback
+ */
 void IIO_Registers::_keyBroadIIO_thread(CallbackFunction callback)
 {
     KeyBroad keys;
@@ -553,6 +601,10 @@ void IIO_Registers::_keyBroadIIO_thread(CallbackFunction callback)
         usleep(30 * 1000);
     }
 }
+/**
+ * @brief 通过设备获取按键
+ *
+ */
 void IIO_Registers::_keyBroadEvent_thread()
 {
     KeyBroad keys;
@@ -574,6 +626,47 @@ void IIO_Registers::_keyBroadEvent_thread()
             printf("key code:%i value:%i type:%i, time:%i\n", t.code, t.value, t.type, t.time);
         usleep(30 * 1000);
     }
+}
+/**
+ * @brief 从配置文件获取antSwitch
+ *
+ * @param filePath 文件路径
+ * @return int 1成功 0失败
+ */
+int IIO_Registers::initAntswith(const char *filePath)
+{
+    int antSum = GetIniKeyInt((char *)"AntSwitch", (char *)"antSwNum", filePath);
+    if (antSum == -1)
+        return 0;
+    printf("antSum:%d\n", antSum);
+
+    free(m_antSwitch);
+    m_antSwitch = (Antswith *)malloc(antSum * sizeof(Antswith));
+    memset(m_antSwitch, 0, antSum * sizeof(Antswith));
+
+    char key[15] = {0};
+    for (int i = 0; i < antSum; i++)
+    {
+        sprintf(key, "antSw%d", i);
+        GetIniKeyFloatArray(key, "freq", (m_antSwitch + i)->freq, 2, filePath);
+        printf("freq1:%f, freq2:%f\n", (m_antSwitch + i)->freq[0], (m_antSwitch + i)->freq[1]);
+        (m_antSwitch + i)->AntSwitchCode = GetIniKeyInt(key, (char *)"AntSwitchCode", filePath);
+    }
+    return 1;
+}
+
+int IIO_Registers::getAntswith(int freq)
+{
+    int antSum = GetIniKeyInt((char *)"AntSwitch", (char *)"antSwNum", filePath);
+
+    for (int i = 0; i < antSum; i++)
+    {
+        if ((m_antSwitch + i)->freq[0] <= freq && freq <= (m_antSwitch + i)->freq[1])
+        {
+            return (m_antSwitch + i)->AntSwitchCode;
+        }
+    }
+    return 0;
 }
 
 void IIO_Registers::performCallback(CallbackFunction callback)

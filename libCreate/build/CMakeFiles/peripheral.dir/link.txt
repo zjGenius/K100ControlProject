@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -std=c++11 -O0 -g  -shared -Wl,-soname,libperipheral.so -o libperipheral.so CMakeFiles/peripheral.dir/src/SDR/buffer.o CMakeFiles/peripheral.dir/src/SDR/context.o CMakeFiles/peripheral.dir/src/SDR/device.o CMakeFiles/peripheral.dir/src/SDR/rxstream.o CMakeFiles/peripheral.dir/src/IIORegister.o 

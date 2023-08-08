@@ -25,12 +25,8 @@ void getkeys(KeyBroad &keys)
 
 int main()
 {
-    IIO_Registers *iio = new IIO_Registers();
-    if (iio->initIIO("ip:192.168.100.233") == 0)
-    {
-        printf("IIO init failed.\n");
-        return -1;
-    }
+    IIO_Registers *iio = IIO_Registers::initIIORegister("ip:192.168.100.233");
+
     int level = 0;
 
     // 开关板控制
@@ -42,10 +38,10 @@ int main()
     while (1)
     {
         // led调试
-        // iio->setLedAlarm(true, 2, B_LONG);
-        // sleep(1);
-        // iio->setLedAlarm(true, 2, B_SHORT);
-        // sleep(1);
+        iio->setLedAlarm(true, 2, 200);
+        sleep(1);
+        iio->setLedAlarm(true, 2, 200);
+        sleep(1);
 
         // 蜂鸣器调试
         // iio->setBuzzerAlarm(true, 2, B_LONG);

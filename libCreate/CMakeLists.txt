@@ -38,16 +38,21 @@ ${PROJECT_SOURCE_DIR}/src/SDR/buffer.cpp
 ${PROJECT_SOURCE_DIR}/src/SDR/context.cpp
 ${PROJECT_SOURCE_DIR}/src/SDR/device.cpp
 ${PROJECT_SOURCE_DIR}/src/SDR/rxstream.cpp
-${PROJECT_SOURCE_DIR}/src/IIORegister.cpp )
+${PROJECT_SOURCE_DIR}/src/IIORegister.cpp
+${PROJECT_SOURCE_DIR}/src/paramRead.cpp )
 
 #链接库
-TARGET_LINK_LIBRARIES( LibCreate pthread 
-${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/libavahi-client.so
-${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/libavahi-common.so
-${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/libdbus-1.so
-${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/libiio.so
-${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/liblzma.so.5
-${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/libxml2.so
-${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/libz.so )
+# arm平台
+# TARGET_LINK_LIBRARIES( LibCreate pthread 
+# ${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/libavahi-client.so
+# ${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/libavahi-common.so
+# ${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/libdbus-1.so
+# ${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/libiio.so
+# ${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/liblzma.so.5
+# ${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/libxml2.so
+# ${PROJECT_SOURCE_DIR}/include/3rdparty/iio/UNIX/arm7l/libz.so )
+
+# x86平台
+TARGET_LINK_LIBRARIES( LibCreate pthread iio )
 
 # SET_TARGET_PROPERTIES(peripheral PROPERTIES VERSION 1.0 SOVERSION 1)
