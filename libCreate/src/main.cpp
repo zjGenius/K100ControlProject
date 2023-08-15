@@ -10,7 +10,7 @@ void getkeys(KeyBroad &keys)
 int main()
 {
     IIO_Registers *iio;
-    iio = IIO_Registers::initIIORegister("ip:192.168.100.233");
+    iio = IIO_Registers::initIIORegister("ip:192.168.100.23");
 
     // uint32_t aa = 0;
     // std::cout << "value1:" << std::bitset<32>(aa) << std::endl;
@@ -54,7 +54,7 @@ int main()
         // iio->setMotorAlarm(true, 5, M_SUSTAIN);
         // sleep(3);
 
-        // 屏幕亮度调节
+        // 屏幕亮度调节 
         // if (level >= 15)
         //     level = 0;
         // iio->setLightLevel(15);

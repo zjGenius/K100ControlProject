@@ -632,6 +632,7 @@ void IIO_Registers::_keyBroadEvent_thread()
  *
  * @param filePath 文件路径
  * @return int 1成功 0失败
+ * 两种方案：1、写死在程序内，需要更改重新编译程序 2、通过配置文件获取不同的通道
  */
 int IIO_Registers::initAntswith(const char *filePath)
 {
@@ -668,6 +669,34 @@ int IIO_Registers::getAntswith(int freq)
     }
     return 0;
 }
+
+// 程序中写入不同的逻辑，动态生成配置文件。
+
+/*
+    #天线切换逻辑
+    [AntSwitch]
+    #分段数
+    antSwNum=6
+    #频段从低到高排列
+    [antSw0]
+    freq=423,443
+    AntSwitchCode=21
+    [antSw1]
+    freq=840,930
+    AntSwitchCode=17
+    [antSw2]
+    freq=1420,1470
+    AntSwitchCode=20
+    [antSw3]
+    freq=2400,2500
+    AntSwitchCode=2
+    [antSw4]
+    freq=5200,5900
+    AntSwitchCode=3
+    [antSw5]
+    freq=300,6000
+    AntSwitchCode=5
+*/
 
 void IIO_Registers::performCallback(CallbackFunction callback)
 {

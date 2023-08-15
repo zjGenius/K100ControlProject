@@ -618,8 +618,6 @@ std::string getLogFileName(char *logPath, int save_day, char *file_prefix, char 
     }
     sort(file_day_vec.begin(), file_day_vec.end(), comp);
 
-    printf("test00000\n");
-
     if (filenames.size() > save_day)
     {
         // for(int ii = 0;ii < file_day_vec.size(); ii++)
@@ -646,7 +644,6 @@ std::string getLogFileName(char *logPath, int save_day, char *file_prefix, char 
             }
         }
     }
-    printf("test111111\n");
     //删除超过当前天的日志
     for(int i = 0; i < file_day_vec.size(); i++)
     {
@@ -667,7 +664,6 @@ std::string getLogFileName(char *logPath, int save_day, char *file_prefix, char 
             }
         }
     }
-    printf("test22222\n");
 
     sprintf(file_date, "%d", date_int);
     filename.append(logPath);
