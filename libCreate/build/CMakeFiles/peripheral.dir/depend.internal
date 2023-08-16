@@ -7,6 +7,7 @@ CMakeFiles/peripheral.dir/src/IIORegister.o
  ../include/SDR/Utils.hpp
  ../include/SDR/context.h
  ../include/SDR/device.h
+ ../include/paramRead.h
  /home/zhangjun/code/K100ControlProject/libCreate/src/IIORegister.cpp
 CMakeFiles/peripheral.dir/src/SDR/buffer.o
  ../include/SDR/buffer.h
@@ -24,3 +25,6 @@ CMakeFiles/peripheral.dir/src/SDR/device.o
 CMakeFiles/peripheral.dir/src/SDR/rxstream.o
  ../include/SDR/rxstream.h
  /home/zhangjun/code/K100ControlProject/libCreate/src/SDR/rxstream.cpp
+CMakeFiles/peripheral.dir/src/paramRead.o
+ ../include/paramRead.h
+ /home/zhangjun/code/K100ControlProject/libCreate/src/paramRead.cpp

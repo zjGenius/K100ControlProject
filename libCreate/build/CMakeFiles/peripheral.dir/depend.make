@@ -6,6 +6,7 @@ CMakeFiles/peripheral.dir/src/IIORegister.o: ../include/IIORegister.h
 CMakeFiles/peripheral.dir/src/IIORegister.o: ../include/SDR/Utils.hpp
 CMakeFiles/peripheral.dir/src/IIORegister.o: ../include/SDR/context.h
 CMakeFiles/peripheral.dir/src/IIORegister.o: ../include/SDR/device.h
+CMakeFiles/peripheral.dir/src/IIORegister.o: ../include/paramRead.h
 CMakeFiles/peripheral.dir/src/IIORegister.o: ../src/IIORegister.cpp
 
 CMakeFiles/peripheral.dir/src/SDR/buffer.o: ../include/SDR/buffer.h
@@ -23,4 +24,7 @@ CMakeFiles/peripheral.dir/src/SDR/device.o: ../src/SDR/device.cpp
 
 CMakeFiles/peripheral.dir/src/SDR/rxstream.o: ../include/SDR/rxstream.h
 CMakeFiles/peripheral.dir/src/SDR/rxstream.o: ../src/SDR/rxstream.cpp
+
+CMakeFiles/peripheral.dir/src/paramRead.o: ../include/paramRead.h
+CMakeFiles/peripheral.dir/src/paramRead.o: ../src/paramRead.cpp
 

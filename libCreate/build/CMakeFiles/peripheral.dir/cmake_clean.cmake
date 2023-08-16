@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/peripheral.dir/src/SDR/context.o"
   "CMakeFiles/peripheral.dir/src/SDR/device.o"
   "CMakeFiles/peripheral.dir/src/SDR/rxstream.o"
+  "CMakeFiles/peripheral.dir/src/paramRead.o"
   "libperipheral.pdb"
   "libperipheral.so"
 )

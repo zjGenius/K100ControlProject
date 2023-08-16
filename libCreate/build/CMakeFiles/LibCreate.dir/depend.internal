@@ -7,6 +7,7 @@ CMakeFiles/LibCreate.dir/src/IIORegister.o
  ../include/SDR/Utils.hpp
  ../include/SDR/context.h
  ../include/SDR/device.h
+ ../include/paramRead.h
  /home/zhangjun/code/K100ControlProject/libCreate/src/IIORegister.cpp
 CMakeFiles/LibCreate.dir/src/SDR/buffer.o
  ../include/SDR/buffer.h
@@ -30,4 +31,8 @@ CMakeFiles/LibCreate.dir/src/main.o
  ../include/SDR/Utils.hpp
  ../include/SDR/context.h
  ../include/SDR/device.h
+ ../include/paramRead.h
  /home/zhangjun/code/K100ControlProject/libCreate/src/main.cpp
+CMakeFiles/LibCreate.dir/src/paramRead.o
+ ../include/paramRead.h
+ /home/zhangjun/code/K100ControlProject/libCreate/src/paramRead.cpp

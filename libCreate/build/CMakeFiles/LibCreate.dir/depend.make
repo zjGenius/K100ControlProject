@@ -6,6 +6,7 @@ CMakeFiles/LibCreate.dir/src/IIORegister.o: ../include/IIORegister.h
 CMakeFiles/LibCreate.dir/src/IIORegister.o: ../include/SDR/Utils.hpp
 CMakeFiles/LibCreate.dir/src/IIORegister.o: ../include/SDR/context.h
 CMakeFiles/LibCreate.dir/src/IIORegister.o: ../include/SDR/device.h
+CMakeFiles/LibCreate.dir/src/IIORegister.o: ../include/paramRead.h
 CMakeFiles/LibCreate.dir/src/IIORegister.o: ../src/IIORegister.cpp
 
 CMakeFiles/LibCreate.dir/src/SDR/buffer.o: ../include/SDR/buffer.h
@@ -29,5 +30,9 @@ CMakeFiles/LibCreate.dir/src/main.o: ../include/IIORegister.h
 CMakeFiles/LibCreate.dir/src/main.o: ../include/SDR/Utils.hpp
 CMakeFiles/LibCreate.dir/src/main.o: ../include/SDR/context.h
 CMakeFiles/LibCreate.dir/src/main.o: ../include/SDR/device.h
+CMakeFiles/LibCreate.dir/src/main.o: ../include/paramRead.h
 CMakeFiles/LibCreate.dir/src/main.o: ../src/main.cpp
+
+CMakeFiles/LibCreate.dir/src/paramRead.o: ../include/paramRead.h
+CMakeFiles/LibCreate.dir/src/paramRead.o: ../src/paramRead.cpp
 

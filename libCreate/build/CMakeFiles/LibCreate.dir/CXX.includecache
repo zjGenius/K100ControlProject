@@ -41,6 +41,8 @@ SDR/context.h
 ../include/SDR/context.h
 SDR/device.h
 ../include/SDR/device.h
+paramRead.h
+../include/paramRead.h
 
 ../include/SDR/Utils.hpp
 algorithm
@@ -84,10 +86,14 @@ thread
 vector
 -
 
-/home/zhangjun/code/K100ControlProject/libCreate/src/IIORegister.cpp
-IIORegister.h
-/home/zhangjun/code/K100ControlProject/libCreate/src/IIORegister.h
-bitset
+../include/paramRead.h
+stdio.h
+-
+string.h
+-
+vector
+-
+stdlib.h
 -
 
 /home/zhangjun/code/K100ControlProject/libCreate/src/main.cpp

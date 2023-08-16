@@ -41,6 +41,8 @@ SDR/context.h
 ../include/SDR/context.h
 SDR/device.h
 ../include/SDR/device.h
+paramRead.h
+../include/paramRead.h
 
 ../include/SDR/Utils.hpp
 algorithm
@@ -82,6 +84,16 @@ functional
 thread
 -
 vector
+-
+
+../include/paramRead.h
+stdio.h
+-
+string.h
+-
+vector
+-
+stdlib.h
 -
 
 /home/zhangjun/code/K100ControlProject/libCreate/src/IIORegister.cpp

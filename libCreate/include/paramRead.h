@@ -15,12 +15,15 @@
 #include <string.h>
 #include <vector>
 #include <stdlib.h>
-#include <QDebug>
-#include <QReadWriteLock>
+#pragma pack(1)
 typedef struct
 {
+    int isuse;
     int freq;
     int gain;
+    float band_width;
+    float samp_freq;
+    int type; // 0是wifi频点，1是正常频点
 } FreqCorInfo;
 
 typedef struct
@@ -30,6 +33,7 @@ typedef struct
     int isuse;
     int num;
 } FreqInfo;
+#pragma pack()
 
 int getfreqinfo(char *fileName, struct Freq_info *freqinfos);
 int GetIniKeyString(char *, const char *, const char *, const char *);
@@ -38,12 +42,8 @@ int GetIniKeyIntArray(const char *, const char *, int *, int, const char *);
 long long GetIniKeyInt(const char *, const char *, const char *);
 float GetIniKeyFloat(const char *, const char *, const char *);
 int update_param_key(const char *fileName, const char *key, const char *data);
-long GetFileRefreshTime(const char *FilePath);
+long GetFileRefreshTime(char *FilePath);
 int PutIniKeyInt(const char *title, const char *key, int val, const char *filename);
 int getfreqlist(char *FreqListPath, FreqCorInfo *freq_tab);
-int getfreqlist(const char *FreqListPath, std::vector<FreqInfo> &vec_scan, bool with_notuse = true);
-
-std::string getLogFileName(char *logPath, int save_day, char *file_prefix, char *file_suffix);
-int saveLog(char* file_path, char* file_prefix, std::string data, char* file_suffix, int saveDate);
-std::vector<int> returnAllFiles(char *logPath, char *mate_str, char *str);
+int getfreqlist(char *FreqListPath, std::vector<FreqInfo> &vec_scan, bool with_notuse = true);
 #endif

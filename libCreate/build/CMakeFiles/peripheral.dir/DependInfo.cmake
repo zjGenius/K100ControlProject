@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/zhangjun/code/K100ControlProject/libCreate/src/SDR/context.cpp" "/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles/peripheral.dir/src/SDR/context.o"
   "/home/zhangjun/code/K100ControlProject/libCreate/src/SDR/device.cpp" "/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles/peripheral.dir/src/SDR/device.o"
   "/home/zhangjun/code/K100ControlProject/libCreate/src/SDR/rxstream.cpp" "/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles/peripheral.dir/src/SDR/rxstream.o"
+  "/home/zhangjun/code/K100ControlProject/libCreate/src/paramRead.cpp" "/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles/peripheral.dir/src/paramRead.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

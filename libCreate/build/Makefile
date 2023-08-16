@@ -241,6 +241,24 @@ src/main.s:
 	$(MAKE) -f CMakeFiles/LibCreate.dir/build.make CMakeFiles/LibCreate.dir/src/main.s
 .PHONY : src/main.s
 
+# target to build an object file
+src/paramRead.o:
+	$(MAKE) -f CMakeFiles/peripheral.dir/build.make CMakeFiles/peripheral.dir/src/paramRead.o
+	$(MAKE) -f CMakeFiles/LibCreate.dir/build.make CMakeFiles/LibCreate.dir/src/paramRead.o
+.PHONY : src/paramRead.o
+
+# target to preprocess a source file
+src/paramRead.i:
+	$(MAKE) -f CMakeFiles/peripheral.dir/build.make CMakeFiles/peripheral.dir/src/paramRead.i
+	$(MAKE) -f CMakeFiles/LibCreate.dir/build.make CMakeFiles/LibCreate.dir/src/paramRead.i
+.PHONY : src/paramRead.i
+
+# target to generate assembly for a file
+src/paramRead.s:
+	$(MAKE) -f CMakeFiles/peripheral.dir/build.make CMakeFiles/peripheral.dir/src/paramRead.s
+	$(MAKE) -f CMakeFiles/LibCreate.dir/build.make CMakeFiles/LibCreate.dir/src/paramRead.s
+.PHONY : src/paramRead.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -269,6 +287,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/paramRead.o"
+	@echo "... src/paramRead.i"
+	@echo "... src/paramRead.s"
 .PHONY : help
 
 

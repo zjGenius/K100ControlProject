@@ -83,9 +83,22 @@ CMakeFiles/LibCreate.dir/src/main.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LibCreate.dir/src/main.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zhangjun/code/K100ControlProject/libCreate/src/main.cpp -o CMakeFiles/LibCreate.dir/src/main.s
 
+CMakeFiles/LibCreate.dir/src/paramRead.o: CMakeFiles/LibCreate.dir/flags.make
+CMakeFiles/LibCreate.dir/src/paramRead.o: ../src/paramRead.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/LibCreate.dir/src/paramRead.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LibCreate.dir/src/paramRead.o -c /home/zhangjun/code/K100ControlProject/libCreate/src/paramRead.cpp
+
+CMakeFiles/LibCreate.dir/src/paramRead.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LibCreate.dir/src/paramRead.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zhangjun/code/K100ControlProject/libCreate/src/paramRead.cpp > CMakeFiles/LibCreate.dir/src/paramRead.i
+
+CMakeFiles/LibCreate.dir/src/paramRead.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LibCreate.dir/src/paramRead.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zhangjun/code/K100ControlProject/libCreate/src/paramRead.cpp -o CMakeFiles/LibCreate.dir/src/paramRead.s
+
 CMakeFiles/LibCreate.dir/src/SDR/buffer.o: CMakeFiles/LibCreate.dir/flags.make
 CMakeFiles/LibCreate.dir/src/SDR/buffer.o: ../src/SDR/buffer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/LibCreate.dir/src/SDR/buffer.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/LibCreate.dir/src/SDR/buffer.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LibCreate.dir/src/SDR/buffer.o -c /home/zhangjun/code/K100ControlProject/libCreate/src/SDR/buffer.cpp
 
 CMakeFiles/LibCreate.dir/src/SDR/buffer.i: cmake_force
@@ -98,7 +111,7 @@ CMakeFiles/LibCreate.dir/src/SDR/buffer.s: cmake_force
 
 CMakeFiles/LibCreate.dir/src/SDR/context.o: CMakeFiles/LibCreate.dir/flags.make
 CMakeFiles/LibCreate.dir/src/SDR/context.o: ../src/SDR/context.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/LibCreate.dir/src/SDR/context.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/LibCreate.dir/src/SDR/context.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LibCreate.dir/src/SDR/context.o -c /home/zhangjun/code/K100ControlProject/libCreate/src/SDR/context.cpp
 
 CMakeFiles/LibCreate.dir/src/SDR/context.i: cmake_force
@@ -111,7 +124,7 @@ CMakeFiles/LibCreate.dir/src/SDR/context.s: cmake_force
 
 CMakeFiles/LibCreate.dir/src/SDR/device.o: CMakeFiles/LibCreate.dir/flags.make
 CMakeFiles/LibCreate.dir/src/SDR/device.o: ../src/SDR/device.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/LibCreate.dir/src/SDR/device.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/LibCreate.dir/src/SDR/device.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LibCreate.dir/src/SDR/device.o -c /home/zhangjun/code/K100ControlProject/libCreate/src/SDR/device.cpp
 
 CMakeFiles/LibCreate.dir/src/SDR/device.i: cmake_force
@@ -124,7 +137,7 @@ CMakeFiles/LibCreate.dir/src/SDR/device.s: cmake_force
 
 CMakeFiles/LibCreate.dir/src/SDR/rxstream.o: CMakeFiles/LibCreate.dir/flags.make
 CMakeFiles/LibCreate.dir/src/SDR/rxstream.o: ../src/SDR/rxstream.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/LibCreate.dir/src/SDR/rxstream.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/LibCreate.dir/src/SDR/rxstream.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LibCreate.dir/src/SDR/rxstream.o -c /home/zhangjun/code/K100ControlProject/libCreate/src/SDR/rxstream.cpp
 
 CMakeFiles/LibCreate.dir/src/SDR/rxstream.i: cmake_force
@@ -139,6 +152,7 @@ CMakeFiles/LibCreate.dir/src/SDR/rxstream.s: cmake_force
 LibCreate_OBJECTS = \
 "CMakeFiles/LibCreate.dir/src/IIORegister.o" \
 "CMakeFiles/LibCreate.dir/src/main.o" \
+"CMakeFiles/LibCreate.dir/src/paramRead.o" \
 "CMakeFiles/LibCreate.dir/src/SDR/buffer.o" \
 "CMakeFiles/LibCreate.dir/src/SDR/context.o" \
 "CMakeFiles/LibCreate.dir/src/SDR/device.o" \
@@ -149,13 +163,14 @@ LibCreate_EXTERNAL_OBJECTS =
 
 ../output/LibCreate: CMakeFiles/LibCreate.dir/src/IIORegister.o
 ../output/LibCreate: CMakeFiles/LibCreate.dir/src/main.o
+../output/LibCreate: CMakeFiles/LibCreate.dir/src/paramRead.o
 ../output/LibCreate: CMakeFiles/LibCreate.dir/src/SDR/buffer.o
 ../output/LibCreate: CMakeFiles/LibCreate.dir/src/SDR/context.o
 ../output/LibCreate: CMakeFiles/LibCreate.dir/src/SDR/device.o
 ../output/LibCreate: CMakeFiles/LibCreate.dir/src/SDR/rxstream.o
 ../output/LibCreate: CMakeFiles/LibCreate.dir/build.make
 ../output/LibCreate: CMakeFiles/LibCreate.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable ../output/LibCreate"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/zhangjun/code/K100ControlProject/libCreate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable ../output/LibCreate"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/LibCreate.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

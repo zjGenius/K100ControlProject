@@ -237,18 +237,6 @@ int IIO_Registers::getControlIIO(uint8_t bit)
 }
 
 /**
- * @brief 控制开关板 (iio:device0:altvoltage1:ant_switch)
- *
- * @param value 传入16进制数
- * @return true
- * @return false
- */
-bool IIO_Registers::setAntSwitch(uint32_t value)
-{
-    return pDev->set_switch(value) == 0;
-}
-
-/**
  * @brief (iio:device0:altvoltage1:alarm)
  *
  * @param _switch true开  false关
@@ -628,49 +616,45 @@ void IIO_Registers::_keyBroadEvent_thread()
     }
 }
 /**
- * @brief 从配置文件获取antSwitch
+ * @brief 初始化开关板逻辑
  *
- * @param filePath 文件路径
- * @return int 1成功 0失败
- * 两种方案：1、写死在程序内，需要更改重新编译程序 2、通过配置文件获取不同的通道
+ * @param mode
  */
-int IIO_Registers::initAntswith(const char *filePath)
+void IIO_Registers::initAntswith(uint8_t mode)
 {
-    int antSum = GetIniKeyInt((char *)"AntSwitch", (char *)"antSwNum", filePath);
-    if (antSum == -1)
-        return 0;
-    printf("antSum:%d\n", antSum);
-
-    free(m_antSwitch);
-    m_antSwitch = (Antswith *)malloc(antSum * sizeof(Antswith));
-    memset(m_antSwitch, 0, antSum * sizeof(Antswith));
-
-    char key[15] = {0};
-    for (int i = 0; i < antSum; i++)
+    if (mode == ProductType::POCKET)
     {
-        sprintf(key, "antSw%d", i);
-        GetIniKeyFloatArray(key, "freq", (m_antSwitch + i)->freq, 2, filePath);
-        printf("freq1:%f, freq2:%f\n", (m_antSwitch + i)->freq[0], (m_antSwitch + i)->freq[1]);
-        (m_antSwitch + i)->AntSwitchCode = GetIniKeyInt(key, (char *)"AntSwitchCode", filePath);
+        m_antSwitch.first = sizeof(pocketSwitch) / sizeof(Antswith);
+        m_antSwitch.second = pocketSwitch;
     }
-    return 1;
-}
-
-int IIO_Registers::getAntswith(int freq)
-{
-    int antSum = GetIniKeyInt((char *)"AntSwitch", (char *)"antSwNum", filePath);
-
-    for (int i = 0; i < antSum; i++)
+    else if (mode == ProductType::SHIELD)
     {
-        if ((m_antSwitch + i)->freq[0] <= freq && freq <= (m_antSwitch + i)->freq[1])
+        m_antSwitch.first = sizeof(shieldSwitch) / sizeof(Antswith);
+        m_antSwitch.second = shieldSwitch;
+    }
+    else
+    {
+        printf("Please enter the correct parameters\n");
+    }
+}
+/**
+ * @brief 设置开关板逻辑
+ *
+ * @param freq
+ * @return int 0失败 1成功
+ */
+int IIO_Registers::setAntswith(int freq)
+{
+    for (int i = 0; i < m_antSwitch.first; i++)
+    {
+        if ((m_antSwitch.second + i)->freq[0] <= freq && freq <= (m_antSwitch.second + i)->freq[1])
         {
-            return (m_antSwitch + i)->AntSwitchCode;
+            uint param = ((m_antSwitch.second + i)->AntSwitchCode & 0xff) << 0;
+            return pDev->set_switch(param, 1);
         }
     }
     return 0;
 }
-
-// 程序中写入不同的逻辑，动态生成配置文件。
 
 /*
     #天线切换逻辑
@@ -706,3 +690,29 @@ void IIO_Registers::performCallback(CallbackFunction callback)
 
     callback(key);
 }
+
+/*
+    #天线切换逻辑
+    [AntSwitch]
+    #分段数
+    antSwNum=6
+    #频段从低到高排列
+    [antSw0]
+    freq=423,443
+    AntSwitchCode=21
+    [antSw1]
+    freq=840,930
+    AntSwitchCode=17
+    [antSw2]
+    freq=1420,1470
+    AntSwitchCode=20
+    [antSw3]
+    freq=2400,2500
+    AntSwitchCode=2
+    [antSw4]
+    freq=5200,5900
+    AntSwitchCode=3
+    [antSw5]
+    freq=300,6000
+    AntSwitchCode=5
+*/

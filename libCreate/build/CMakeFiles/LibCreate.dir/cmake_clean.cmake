@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/LibCreate.dir/src/SDR/device.o"
   "CMakeFiles/LibCreate.dir/src/SDR/rxstream.o"
   "CMakeFiles/LibCreate.dir/src/main.o"
+  "CMakeFiles/LibCreate.dir/src/paramRead.o"
 )
 
 # Per-language clean rules from dependency scanning.

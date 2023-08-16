@@ -89,6 +89,12 @@ enum KEYS
     OK      // 确认
 };
 
+enum ProductType
+{
+    POCKET, // 口袋式
+    SHIELD  // 盾
+};
+
 typedef void (*CallbackFunction)(KeyBroad &);
 class IIO_Registers
 {
@@ -106,7 +112,20 @@ private:
     AlarmThread ledThread;    // led
     AlarmThread keysThread;   // 按键
 
-    Antswith *m_antSwitch = NULL; // 开关板配置
+    std::pair<int, Antswith *> m_antSwitch; // 开关板配置
+
+    Antswith pocketSwitch[6] = {{423, 433, 21},
+                                {840, 930, 17},
+                                {1420, 1470, 20},
+                                {2400, 2500, 2},
+                                {5200, 5900, 3},
+                                {300, 6000, 5}}; // 口袋式开关板逻辑
+
+    Antswith shieldSwitch[5] = {{423, 433, 21},
+                                {840, 930, 17},
+                                {1420, 1470, 20},
+                                {2400, 2500, 2},
+                                {5200, 5900, 3}}; // 盾开关板逻辑
 
 private:
     IIO_Registers();
@@ -134,8 +153,7 @@ private:
     int readKeys(KeyBroad &keys);
     KeyBroad dealKeysTime(uint8_t key, uint64_t nullTime, uint64_t keyTime);
 
-    int initAntswith(const char *filePath);
-    int getAntswith(int freq);
+    void initAntswith(uint8_t mode);
 
 public:
     static IIO_Registers *initIIORegister(std::string ip, uint8_t mode = 0);
@@ -155,7 +173,7 @@ public:
     int setControlIIO(uint8_t bit, uint8_t value); // bit 控制哪个引脚 value 置0还是置1
     int getControlIIO(uint8_t bit);
 
-    bool setAntSwitch(uint32_t value);
+    int setAntswith(int freq);
 
     void performCallback(CallbackFunction callback);
 };

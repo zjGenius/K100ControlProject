@@ -9,6 +9,24 @@ void getkeys(KeyBroad &keys)
 
 int main()
 {
+    // Antswith pocketSwitch[6] = {{423, 433, 21},
+    //                             {840, 930, 17},
+    //                             {1420, 1470, 20},
+    //                             {2400, 2500, 2},
+    //                             {5200, 5900, 3},
+    //                             {300, 6000, 5}}; // 口袋式开关板逻辑
+    // printf("size11:%d\n", sizeof(pocketSwitch));
+    // std::pair<int, Antswith *> a;
+    // a.first = sizeof(pocketSwitch) / sizeof(Antswith);
+    // a.second = pocketSwitch;
+    // // = pocketSwitch;
+    // printf("size22:%d\n", a.first);
+
+    // for (int i = 0; i < a.first; i++)
+    // {
+    //     printf("freq0:%f,freq2:%f,code:%d\n", (a.second + i)->freq[0], (a.second + i)->freq[1], (a.second + i)->AntSwitchCode);
+    // }
+
     IIO_Registers *iio;
     iio = IIO_Registers::initIIORegister("ip:192.168.100.23");
 
@@ -54,7 +72,7 @@ int main()
         // iio->setMotorAlarm(true, 5, M_SUSTAIN);
         // sleep(3);
 
-        // 屏幕亮度调节 
+        // 屏幕亮度调节
         // if (level >= 15)
         //     level = 0;
         // iio->setLightLevel(15);
