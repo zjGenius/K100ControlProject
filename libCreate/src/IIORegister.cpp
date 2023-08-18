@@ -47,6 +47,7 @@ IIO_Registers *IIO_Registers::initIIORegister(std::string ip, uint8_t mode)
         printf("IIO init failed.\n");
         m_IIORegisters = nullptr;
     }
+    m_IIORegisters->initAntswith(mode);
     return m_IIORegisters;
 }
 

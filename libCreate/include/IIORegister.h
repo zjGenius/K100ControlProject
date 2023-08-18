@@ -33,13 +33,13 @@ struct AlarmThread
     uint64_t startTime;       // 告警启动事件
     uint64_t interval_time;   // 告警间隔时间
 };
-
+// 按键识别
 struct KeyBroad
 {
     uint8_t key;   // 哪个键值 参考KEYS
     uint8_t value; // 状态 1短 2长
 };
-
+// 按键识别时间
 struct KeyBroad_TM
 {
     uint8_t old_key; //
@@ -114,18 +114,18 @@ private:
 
     std::pair<int, Antswith *> m_antSwitch; // 开关板配置
 
-    Antswith pocketSwitch[6] = {{423, 433, 21},
-                                {840, 930, 17},
-                                {1420, 1470, 20},
-                                {2400, 2500, 2},
-                                {5200, 5900, 3},
-                                {300, 6000, 5}}; // 口袋式开关板逻辑
+    Antswith pocketSwitch[6]{{{423.0f, 433.0f}, 21},
+                             {{840.0f, 930.0f}, 17},
+                             {{1420.0f, 1470.0f}, 20},
+                             {{2400.0f, 2500.0f}, 2},
+                             {{5200.0f, 5900.0f}, 3},
+                             {{300.0f, 6000.0f}, 5}}; // 口袋式开关板逻辑
 
-    Antswith shieldSwitch[5] = {{423, 433, 21},
-                                {840, 930, 17},
-                                {1420, 1470, 20},
-                                {2400, 2500, 2},
-                                {5200, 5900, 3}}; // 盾开关板逻辑
+    Antswith shieldSwitch[5]{{{423.0f, 433.0f}, 21},
+                             {{840.0f, 930.0f}, 17},
+                             {{1420.0f, 1470.0f}, 20},
+                             {{2400.0f, 2500.0f}, 2},
+                             {{5200.0f, 5900.0f}, 3}}; // 盾开关板逻辑
 
 private:
     IIO_Registers();
