@@ -22,7 +22,9 @@
 
 // #include "SDR/context.h"
 // #include "SDR/device.h"
+// #include "paramRead.h"
 
+// 引用
 class Context;
 class Device;
 
@@ -33,20 +35,30 @@ struct AlarmThread
     uint64_t duration;        // 告警时长
     int mode;                 // 告警模式
     uint64_t startTime;       // 告警启动事件
-    uint64_t interval_time;   // 告警   间隔时间
+    uint64_t interval_time;   // 告警间隔时间
 };
-
+// 按键识别
 struct KeyBroad
 {
     uint8_t key;   // 哪个键值 参考KEYS
     uint8_t value; // 状态 1短 2长
 };
-
+// 按键识别时间
 struct KeyBroad_TM
 {
     uint8_t old_key; //
     uint64_t press_tm = 0;
     uint64_t release_tm = 0;
+};
+
+/**
+ * @brief 开关板通道
+ *
+ */
+struct Antswith
+{
+    float freq[2];
+    int AntSwitchCode;
 };
 
 // enum BuzzerMode
@@ -81,6 +93,12 @@ enum KEYS
     OK      // 确认
 };
 
+enum ProductType
+{
+    POCKET, // 口袋式
+    SHIELD  // 盾
+};
+
 typedef void (*CallbackFunction)(KeyBroad &);
 class IIO_Registers
 {
@@ -97,6 +115,21 @@ private:
     AlarmThread motorThread;  // 马达
     AlarmThread ledThread;    // led
     AlarmThread keysThread;   // 按键
+
+    std::pair<int, Antswith *> m_antSwitch; // 开关板配置
+
+    Antswith pocketSwitch[6]{{{423.0f, 433.0f}, 21},
+                             {{840.0f, 930.0f}, 17},
+                             {{1420.0f, 1470.0f}, 20},
+                             {{2400.0f, 2500.0f}, 2},
+                             {{5200.0f, 5900.0f}, 3},
+                             {{300.0f, 6000.0f}, 5}}; // 口袋式开关板逻辑
+
+    Antswith shieldSwitch[5]{{{423.0f, 433.0f}, 21},
+                             {{840.0f, 930.0f}, 17},
+                             {{1420.0f, 1470.0f}, 20},
+                             {{2400.0f, 2500.0f}, 2},
+                             {{5200.0f, 5900.0f}, 3}}; // 盾开关板逻辑
 
 private:
     IIO_Registers();
@@ -124,6 +157,8 @@ private:
     int readKeys(KeyBroad &keys);
     KeyBroad dealKeysTime(uint8_t key, uint64_t nullTime, uint64_t keyTime);
 
+    void initAntswith(uint8_t mode);
+
 public:
     static IIO_Registers *initIIORegister(std::string ip, uint8_t mode = 0);
     static IIO_Registers *deleteIIORegister();
@@ -142,7 +177,7 @@ public:
     int setControlIIO(uint8_t bit, uint8_t value); // bit 控制哪个引脚 value 置0还是置1
     int getControlIIO(uint8_t bit);
 
-    bool setAntSwitch(uint32_t value);
+    int setAntswith(int freq);
 
     void performCallback(CallbackFunction callback);
 };

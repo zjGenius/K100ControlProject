@@ -25,7 +25,7 @@ void getkeys(KeyBroad &keys)
 
 int main()
 {
-    IIO_Registers *iio = IIO_Registers::initIIORegister("ip:192.168.100.233");
+    IIO_Registers *iio = IIO_Registers::initIIORegister("ip:192.168.100.233", 0);
 
     int level = 0;
 
