@@ -28,7 +28,7 @@ int main()
     // }
 
     IIO_Registers *iio;
-    iio = IIO_Registers::initIIORegister("ip:192.168.100.23");
+    iio = IIO_Registers::initIIORegister("ip:192.168.100.23", ProductType::POCKET);
 
     // uint32_t aa = 0;
     // std::cout << "value1:" << std::bitset<32>(aa) << std::endl;
@@ -49,10 +49,10 @@ int main()
     while (1)
     {
         // led调试
-        // iio->setLedAlarm(true, 2, 200);
-        // sleep(1);
-        // iio->setLedAlarm(true, 5, 100);
-        // sleep(2);
+        iio->setLedAlarm(true, 2, 200);
+        sleep(1);
+        iio->setLedAlarm(true, 5, 100);
+        sleep(2);
 
         // iio->setLedAlarm(false);
 

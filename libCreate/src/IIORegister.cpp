@@ -47,7 +47,12 @@ IIO_Registers *IIO_Registers::initIIORegister(std::string ip, uint8_t mode)
         printf("IIO init failed.\n");
         m_IIORegisters = nullptr;
     }
-    m_IIORegisters->initAntswith(mode);
+    if (m_IIORegisters->initAntswith(mode) != 1)
+    {
+        printf("IIO init failed.\n");
+        m_IIORegisters = nullptr;
+    }
+
     return m_IIORegisters;
 }
 
@@ -276,8 +281,20 @@ void IIO_Registers::setAlarmParam(int type, uint64_t duration, uint32_t mode, ui
  * @param interval_time 告警间隔时间(响不响间隔) 单位ms
  * @return int
  */
-int IIO_Registers::setBuzzerAlarm(bool _switch, uint64_t duration, uint64_t interval_time)
+int IIO_Registers::setBuzzerAlarm(bool _switch, uint64_t duration, uint8_t mode)
 {
+    uint64_t interval_time = 0;
+    if (mode == AlarmMode::M_SHORT)
+        interval_time = 100;
+    else if (mode == AlarmMode::M_MODERATE)
+        interval_time = 300;
+    else if (mode == AlarmMode::M_LONG)
+        interval_time = 500;
+    else
+    {
+        printf("mode error!\n");
+        return 0;
+    }
     if (_switch == true)
     {
         if (buzzerThread.running == false)
@@ -307,8 +324,20 @@ int IIO_Registers::setBuzzerAlarm(bool _switch, uint64_t duration, uint64_t inte
  * @param interval_time 告警间隔时间(亮灭间隔) 单位ms
  * @return int
  */
-int IIO_Registers::setLedAlarm(bool _switch, uint64_t duration, uint64_t interval_time)
+int IIO_Registers::setLedAlarm(bool _switch, uint64_t duration, uint8_t mode)
 {
+    uint64_t interval_time = 0;
+    if (mode == AlarmMode::M_SHORT)
+        interval_time = 100;
+    else if (mode == AlarmMode::M_MODERATE)
+        interval_time = 300;
+    else if (mode == AlarmMode::M_LONG)
+        interval_time = 500;
+    else
+    {
+        printf("mode error!\n");
+        return 0;
+    }
     if (_switch == true)
     {
         if (ledThread.running == false)
@@ -617,11 +646,12 @@ void IIO_Registers::_keyBroadEvent_thread()
     }
 }
 /**
- * @brief 初始化开关板逻辑
+ * @brief 初始化开关板
  *
- * @param mode
+ * @param mode 开关板类型
+ * @return int 0失败 1成功
  */
-void IIO_Registers::initAntswith(uint8_t mode)
+int IIO_Registers::initAntswith(uint8_t mode)
 {
     if (mode == ProductType::POCKET)
     {
@@ -636,7 +666,9 @@ void IIO_Registers::initAntswith(uint8_t mode)
     else
     {
         printf("Please enter the correct parameters\n");
+        return 0;
     }
+    return 1;
 }
 /**
  * @brief 设置开关板逻辑
@@ -683,14 +715,14 @@ int IIO_Registers::setAntswith(int freq)
     AntSwitchCode=5
 */
 
-void IIO_Registers::performCallback(CallbackFunction callback)
-{
-    KeyBroad key;
-    key.key = 26;
-    key.value = 1;
+// void IIO_Registers::performCallback(CallbackFunction callback)
+// {
+//     KeyBroad key;
+//     key.key = 26;
+//     key.value = 1;
 
-    callback(key);
-}
+//     callback(key);
+// }
 
 /*
     #天线切换逻辑

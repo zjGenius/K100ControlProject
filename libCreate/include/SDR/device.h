@@ -69,7 +69,7 @@ private:
         get_lo_chan(ctx, TX, &chn);
         if (chn == nullptr)
         {
-            printf("error\n");
+            printf("get alarm error\n");
             return false;
         }
         char _tmp_value[16];
@@ -94,7 +94,7 @@ private:
         get_lo_chan(ctx, TX, &chn);
         if (chn == nullptr)
         {
-            printf("error\n");
+            printf("set alarm error\n");
             return false;
         }
         unsigned long long _tmp_value = 0;
@@ -112,7 +112,7 @@ private:
         get_lo_chan(ctx, TX, &chn);
         if (chn == nullptr)
         {
-            printf("error\n");
+            printf("get switch error\n");
             return false;
         }
         char _tmp_value[16];
@@ -136,7 +136,7 @@ private:
         get_lo_chan(ctx, TX, &chn);
         if (chn == nullptr)
         {
-            printf("error\n");
+            printf("set switch error\n");
             return false;
         }
         unsigned long long _tmp_value = 0;
@@ -153,7 +153,7 @@ private:
         get_lo_chan(ctx, TX, &chn);
         if (chn == nullptr)
         {
-            printf("error\n");
+            printf("set ofmd error\n");
             return false;
         }
         unsigned long long _tmp_value = 0;
@@ -170,7 +170,7 @@ private:
         get_lo_chan(ctx, TX, &chn);
         if (chn == nullptr)
         {
-            printf("error\n");
+            printf("set FPGAMode error\n");
             return false;
         }
         unsigned long long _tmp_value = 0;
@@ -188,7 +188,7 @@ private:
         get_adc_chan(ctx, chid, &chn);
         if (chn == nullptr)
         {
-            printf("error\n");
+            printf("get temp error\n");
             return false;
         }
         char _tmp_value[16];
@@ -213,7 +213,7 @@ private:
         get_adc_chan(ctx, chid, &chn);
         if (chn == nullptr)
         {
-            printf("error\n");
+            printf("get adtemp error\n");
             return false;
         }
         char _tmp_value[16];
@@ -303,7 +303,7 @@ private:
         get_lo_chan(ctx, TX, &chn);
         if (chn == nullptr)
         {
-            printf("error\n");
+            printf("get keys error\n");
             return false;
         }
         char _tmp_value[16];

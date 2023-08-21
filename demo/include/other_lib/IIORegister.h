@@ -61,16 +61,17 @@ struct Antswith
     int AntSwitchCode;
 };
 
-// enum BuzzerMode
-// {
-//     B_SHORT = 100,    // 100ms
-//     B_MODERATE = 300, // 300ms
-//     B_LONG = 500      // 500ms
-// };
-enum MotorMode
+enum MotorMode // 马达告警模式
 {
     M_SUSTAIN, // 持续震
     M_INTERVAL // 间歇震
+};
+
+enum AlarmMode // 告警模式
+{
+    M_SHORT = 1, // 短
+    M_MODERATE,  // 中
+    M_LONG,      // 长
 };
 
 enum ALARM
@@ -93,7 +94,7 @@ enum KEYS
     OK      // 确认
 };
 
-enum ProductType
+enum ProductType // 产品种类
 {
     POCKET, // 口袋式
     SHIELD  // 盾
@@ -157,29 +158,87 @@ private:
     int readKeys(KeyBroad &keys);
     KeyBroad dealKeysTime(uint8_t key, uint64_t nullTime, uint64_t keyTime);
 
-    void initAntswith(uint8_t mode);
+    int initAntswith(uint8_t mode);
 
 public:
-    static IIO_Registers *initIIORegister(std::string ip, uint8_t mode = 0);
+    /**
+     * @brief 初始化iio
+     * @param ip    k100的ip
+     * @param mode  产品模式,参考ProductType
+     * @return IIO_Registers*
+     */
+    static IIO_Registers *initIIORegister(std::string ip, uint8_t mode);
+
+    /**
+     * @brief 回收iio
+     * @return IIO_Registers*
+     */
     static IIO_Registers *deleteIIORegister();
 
-    // void initKeys(void *(int key, int type)); // 回调函数
+    /**
+     * @brief 按键识别
+     * @param callback 传入回调函数
+     */
     void initKeys(CallbackFunction callback);
+
+    /**
+     * @brief 停止按键识别
+     */
     void killKeys();
 
+    /**
+     * @brief Set the Buzzer Level object
+     * @param level 等级 0~15
+     * @return int 返回值 0失败 1成功
+     */
     int setBuzzerLevel(int level);
+
+    /**
+     * @brief Set the Light Level object
+     * @param level 等级 0~15
+     * @return int 返回值 0失败 1成功
+     */
     int setLightLevel(int level);
 
-    int setBuzzerAlarm(bool _switch, uint64_t seconds = 0, uint64_t interval_time = 0);
+    /**
+     * @brief Set the Buzzer Alarm object
+     * @param _switch true开启 false停止
+     * @param seconds 时长，单位s
+     * @param mode  模式参考AlarmMode
+     * @return int  返回值 0失败 1成功
+     */
+    int setBuzzerAlarm(bool _switch, uint64_t seconds = 0, uint8_t mode = 0);
+
+    /**
+     * @brief Set the Motor Alarm object
+     * @param _switch true开启 false停止
+     * @param duration 时长，单位s
+     * @param mode 模式参考MotorMode
+     * @param interval_time 当mode处于M_INTERVAL(间歇告警)时,传入间歇时间 单位ms
+     * @return int 返回值 0失败 1成功
+     */
     int setMotorAlarm(bool _switch, uint64_t duration = 0, uint32_t mode = 0, uint64_t interval_time = 0);
-    int setLedAlarm(bool _switch, uint64_t seconds = 0, uint64_t interval_time = 0);
+
+    /**
+     * @brief Set the Led Alarm object
+     * @param _switch true开启 false停止
+     * @param seconds 时长，单位s
+     * @param mode 模式参考AlarmMode
+     * @return int 返回值 0失败 1成功
+     */
+    int setLedAlarm(bool _switch, uint64_t seconds = 0, uint8_t mode = 0);
 
     int setControlIIO(uint8_t bit, uint8_t value); // bit 控制哪个引脚 value 置0还是置1
-    int getControlIIO(uint8_t bit);
+    int getControlIIO(uint8_t bit);                // 获取bit位
 
+    /**
+     * @brief Set the Antswith object
+     * @param freq 频点值
+     * @return int 0失败 1成功
+     */
     int setAntswith(int freq);
 
-    void performCallback(CallbackFunction callback);
+    // void performCallback(CallbackFunction callback);
 };
 
 #endif // !_IIO_REGISTER_H_
